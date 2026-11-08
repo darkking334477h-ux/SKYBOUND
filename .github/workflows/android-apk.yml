@@ -4,49 +4,72 @@ name: Build SKYBOUND Android APK
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
+    name: Build Android APK
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      # 1. Download project
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      # 2. Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
 
+      # 3. Setup Java
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
 
+      # 4. Setup Android SDK
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
 
+      # 5. Install project dependencies
       - name: Install dependencies
         run: npm install
 
-      - name: Build game
+      # 6. Build game
+      - name: Build SKYBOUND
         run: npm run build
 
-      - name: Add Android platform
-        run: npx cap add android
+      # 7. Install Capacitor Android
+      - name: Install Capacitor Android
+        run: npm install @capacitor/android
 
+      # 8. Add Android platform if missing
+      - name: Add Android platform
+        run: |
+          if [ ! -d android ]; then
+            npx cap add android
+          fi
+
+      # 9. Sync Capacitor
       - name: Sync Capacitor
         run: npx cap sync android
 
+      # 10. Build APK
       - name: Build APK
         working-directory: android
-        run: ./gradlew assembleDebug --no-daemon
+        run: chmod +x gradlew && ./gradlew assembleDebug --no-daemon
 
-      - name: Upload APK
+      # 11. Upload APK
+      - name: Upload SKYBOUND APK
         uses: actions/upload-artifact@v4
         with:
           name: SKYBOUND-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
-
+          if-no-files-found: error
+          retention-days: 7
