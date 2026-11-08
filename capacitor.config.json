@@ -1,0 +1,6 @@
+{
+  "appId": "com.skybound.flightsim",
+  "appName": "SKYBOUND",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}

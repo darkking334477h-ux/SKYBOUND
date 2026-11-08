@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#061523"><title>SKYBOUND — Flight Simulator</title>
+</head>
+<body>
+<div id="world"></div>
+<div id="interface">
+  <header><div class="logo">SKY<span>BOUND</span><small> OPEN WORLD FLIGHT</small></div><div class="top-right"><span id="weather">CLEAR SKY</span><span id="fps">-- FPS</span></div></header>
+  <section class="flight-data">
+    <div><small>ALTITUDE</small><b id="alt">120 <i>m</i></b></div>
+    <div><small>AIRSPEED</small><b id="spd">95 <i>km/h</i></b></div>
+    <div><small>HEADING</small><b id="hdg">000°</b></div>
+    <div><small>THROTTLE</small><b id="thr">42%</b></div>
+    <div><small>VERTICAL SPEED</small><b id="vs">0 m/s</b></div>
+  </section>
+  <div class="reticle"><span></span></div>
+  <div class="flight-status" id="status">PASSENGER AIRLINER · FREE FLIGHT</div>
+  <div class="mobile-ui">
+    <div class="stick">
+      <button data-act="pitchUp" class="u">▲</button>
+      <button data-act="rollLeft" class="l">◀</button>
+      <button data-act="pitchDown" class="d">▼</button>
+      <button data-act="rollRight" class="r">▶</button>
+    </div>
+    <div class="mobile-actions">
+      <button data-act="throttleUp">THR +</button><button data-act="throttleDown">THR −</button>
+      <button data-act="yawLeft">YAW ◀</button><button data-act="yawRight">YAW ▶</button>
+      <button id="camBtn">CAMERA</button><button id="brakeBtn">BRAKE</button>
+      <button id="resetBtn">RESET</button><span></span>
+    </div>
+  </div>
+  <footer><span>W/S THROTTLE</span><span>ARROWS PITCH / BANK</span><span>A/D YAW</span><span>C CAMERA</span><span>R RESET</span></footer>
+</div>
+<div id="start">
+ <div class="start-box">
+  <div class="overline">A NEW HORIZON AWAITS</div><h1>SKYBOUND</h1>
+  <p>Take the controls of a passenger airliner. Explore an island world with mountains, forests, coastlines, clouds and an airport.</p>
+  <label for="quality">GRAPHICS PRESET</label>
+  <select id="quality"><option value="balanced">BALANCED · OPPO A53</option><option value="performance">PERFORMANCE</option><option value="high">HIGH · MAY RUN SLOW</option></select>
+  <button id="launch">ENTER FLIGHT</button>
+  <small>Landscape mode recommended · Free flight only</small>
+ </div>
+</div>
+<script type="module" src="/src/main.js"></script>
+</body></html>
