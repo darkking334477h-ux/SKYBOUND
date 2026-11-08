@@ -9,11 +9,11 @@ on:
 
 jobs:
   build:
-    name: Build Android APK
+    name: Build SKYBOUND
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Download project
+      # 1. Get source code
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -22,7 +22,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
 
       # 3. Setup Java
       - name: Setup Java
@@ -37,33 +36,37 @@ jobs:
         with:
           packages: platform-tools
 
-      # 5. Install project dependencies
+      # 5. Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # 6. Build game
-      - name: Build SKYBOUND
+      # 6. Build web game
+      - name: Build SKYBOUND game
         run: npm run build
 
-      # 7. Install Capacitor Android
+      # 7. Install matching Capacitor Android version
       - name: Install Capacitor Android
-        run: npm install @capacitor/android
+        run: |
+          CAP_VERSION=$(node -p "require('@capacitor/core/package.json').version")
+          npm install "@capacitor/android@$CAP_VERSION"
 
-      # 8. Add Android platform if missing
+      # 8. Add Android platform
       - name: Add Android platform
         run: |
           if [ ! -d android ]; then
             npx cap add android
           fi
 
-      # 9. Sync Capacitor
+      # 9. Sync Android project
       - name: Sync Capacitor
         run: npx cap sync android
 
       # 10. Build APK
-      - name: Build APK
+      - name: Build Android APK
         working-directory: android
-        run: chmod +x gradlew && ./gradlew assembleDebug --no-daemon
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
 
       # 11. Upload APK
       - name: Upload SKYBOUND APK
